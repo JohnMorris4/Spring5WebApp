@@ -13,29 +13,33 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
-    private String publisher;
+
+    @ManyToOne
+    private Publisher publisher;
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
+    //Constructors from the empty to complete
     public Book() {
     }
 
-    public Book(String title, String isbn, String publisher) {
+    public Book(String title, String isbn, Publisher publisher) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
     }
 
-    public Book(String title, String isbn, String publisher, Set<Author> authors) {
+    public Book(String title, String isbn, Publisher publisher, Set<Author> authors) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
         this.authors = authors;
     }
 
+    //Getters and Setters
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -48,14 +52,15 @@ public class Book {
 
     public void setIsbn(String isbn) { this.isbn = isbn; }
 
-    public String getPublisher() { return publisher; }
+    public Publisher getPublisher() { return publisher; }
 
-    public void setPublisher(String publisher) { this.publisher = publisher; }
+    public void setPublisher(Publisher publisher) { this.publisher = publisher; }
 
     public Set<Author> getAuthors() { return authors; }
 
     public void setAuthors(Set<Author> authors) { this.authors = authors; }
 
+    // ToEquals and HashCode methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +76,7 @@ public class Book {
         return id != null ? id.hashCode() : 0;
     }
 
+    // ToString Method
     @Override
     public String toString() {
         return "Book{" +
